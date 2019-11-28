@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class JdbcUtilTest {
 
-    @Test
+
     public void testExecuteBatch(){
         Connection con = JdbcUtil.GetConnection();
         System.out.println(con);
@@ -33,8 +33,9 @@ public class JdbcUtilTest {
             e.printStackTrace();
         }
 
-        System.out.println("影响的行数 + " + Arrays.toString(effectCount) );
+        System.out.println("影响的行数" + Arrays.toString(effectCount) );
     }
+
     public void testInsertNew() {
 
         Connection con = JdbcUtil.GetConnection();
@@ -49,9 +50,7 @@ public class JdbcUtilTest {
                 System.out.println(resultSet.getInt("Id") + " " + resultSet.getString("name") + " "+resultSet.getString("class"));
 
             }
-            resultSet.close();
-            statement.close();
-            con.close();
+            JdbcUtil.Close(con,statement,resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
