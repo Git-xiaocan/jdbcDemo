@@ -2,17 +2,39 @@ package com.xiaocan.jdbc.util;
 
 import org.junit.Test;
 import sun.applet.Main;
+import sun.jvm.hotspot.tools.SysPropsDumper;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 public class JdbcUtilTest {
 
     @Test
+    public void testExecuteBatch(){
+        Connection con = JdbcUtil.GetConnection();
+        System.out.println(con);
+        Statement statement = null;
+        String [] sqlBatch= {
+       "insert into student(name,class) values('狗屎','技校');",
+        "insert into student(name,class) values('狗1','技校');",
+        "insert into student(name,class) values('狗2','技校');",
+        "insert into student(name,class) values('狗3','技校');"
+        };
+        int[] effectCount = null;
+        try {
+            statement = con.createStatement();
+            for (String sql:sqlBatch){
+                statement.addBatch(sql);
+            }
+            effectCount = statement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("影响的行数 + " + Arrays.toString(effectCount) );
+    }
     public void testInsertNew() {
 
         Connection con = JdbcUtil.GetConnection();

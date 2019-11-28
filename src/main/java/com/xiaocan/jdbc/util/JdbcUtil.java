@@ -1,6 +1,6 @@
 package com.xiaocan.jdbc.util;
 
-import sun.jvm.hotspot.tools.SysPropsDumper;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,8 @@ public class JdbcUtil {
         InputStream instream = Thread.currentThread().getContextClassLoader().getResourceAsStream(DatabaseConfig);
         try {
             properties.load(instream);
-            //System.out.println(properties.getProperty("jdbc.password"));
+            System.out.println(properties.getProperty("jdbc.url"));
+           // System.out.println(properties.getProperty("jdbc.password"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,6 +40,12 @@ public class JdbcUtil {
         String user = properties.getProperty("jdbc.user");
         String password = properties.getProperty("jdbc.password");
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+
             return  DriverManager.getConnection(url,user,password);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,4 +53,8 @@ public class JdbcUtil {
         return null;
     }
 
+
+    public static void main(String[] args) {
+
+    }
 }
